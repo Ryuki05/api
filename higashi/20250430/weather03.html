@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ゴルフ天気判定サイト</title>
+</head>
+<body>
+  <h1>ゴルフ天気判定サイト</h1>
+
+  <label for="citySelect">地域を選んでください：</label>
+  <select id="citySelect">
+    <option value="012010">北海道(旭川)</option>
+    <option value="270000">大阪府</option>
+    <option value="260010">京都府</option>
+    <option value="280010">兵庫県（神戸）</option>
+    <option value="250010">滋賀県（大津）</option>
+    <option value="290010">奈良県（奈良）</option>
+    <option value="300010">和歌山県（和歌山）</option>
+  </select>
+
+  <label for="daySelect" >日付を選んでください：</label>
+  <select id="daySelect">
+    <option value="0">今日</option>
+    <option value="1">明日</option>
+    <option value="2">明後日</option>
+    <option value="3">明々後日</option>
+  </select>
+
+  <h2 id="city">地域名を取得中...</h2>
+  <h1 id="date">日付を取得中...</h1>
+  <p id="weather">天気を取得中...</p>
+  <p id="wind">風向を取得中...</p>
+  <p id="temperature">気温を取得中...</p>
+  
+  
+
+  <script src="weather03.js"></script>
+</body>
+</html>
