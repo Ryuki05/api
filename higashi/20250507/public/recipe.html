@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- このファイルはHTML文書だと伝える決まり文句 -->
+    <meta charset="UTF-8" />
+    <!-- スマホやタブレットでも画面にうまく収まるようにする設定 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Finder</title>
+    <!-- 見た目を整えるためのCSSファイルを読み込む -->
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- ページの一番上の見出し -->
+    <h1>Recipe Finder</h1>
+
+    <!-- 食材を入力するための説明文と入力欄 -->
+    <label for="ingredient">Enter an ingredient:</label>
+    <input type="text" id="ingredient" name="ingredient" />
+
+    <!-- ボタンを押すとレシピを探す関数が動く -->
+    <button onclick="findRecipes()">Find Recipes</button>
+    <button onclick="allRecipes()">All Recipes</button>
+
+    <!-- 検索結果の見出し -->
+    <h2>Recipes</h2>
+
+    <!-- レシピの結果をここに表示する -->
+    <ul id="recipe-list"></ul>
+
+    <script>
+
+async function findRecipes() {
+        // 入力欄から食材の名前を取り出す
+        const ingredient = document.getElementById("ingredient").value;
+
+        // 入力された食材を使って、サーバーにレシピを教えてとお願いする
+        const response = await fetch(`/recipes/ingredient/${ingredient}`);
+
+        // サーバーから帰ってきたレシピのデータを使えるようにする
+        const recipes = await response.json();
+
+        // レシピを表示する場所（ulタグ）を見つける
+        const recipeList = document.getElementById("recipe-list");
+
+        // 前の検索結果を消して、リストを空にする
+        recipeList.innerHTML = "";
+
+        // サーバーから「見つかりませんでした」と返ってきたとき
+        if (response.status === 404) {
+          // 「見つかりませんでした」と表示する
+          recipeList.innerHTML =
+            "<li>No recipes found with the given ingredient</li>";
+        } else {
+          // レシピが見つかったとき、1つずつ画面に表示する
+          recipes.forEach((recipe) => {
+            // 新しいリストの項目を作る
+            const li = document.createElement("li");
+
+            // レシピの名前と、使っている材料を文字にする
+            li.textContent = `${recipe.name} - Ingredients: ${recipe.ingredients.join(", ")}`;
+
+            // 作った項目を画面に追加する
+            recipeList.appendChild(li);
+          });
+        }
+    }
+
+
+      // ボタンを押したときに呼ばれる関数
+      async function allRecipes() {
+        // 入力欄から食材の名前を取り出す
+        // const ingredient = document.getElementById("ingredient").value;
+
+        // 入力された食材を使って、サーバーにレシピを教えてとお願いする
+        const response = await fetch(`/recipes`);
+
+        // サーバーから帰ってきたレシピのデータを使えるようにする
+        const recipes = await response.json();
+
+        // レシピを表示する場所（ulタグ）を見つける
+        const recipeList = document.getElementById("recipe-list");
+
+        // 前の検索結果を消して、リストを空にする
+        recipeList.innerHTML = "";
+
+        // サーバーから「見つかりませんでした」と返ってきたとき
+        if (response.status === 404) {
+          // レシピを出す
+            recipes((recipe) => {
+            // 新しいリストの項目を作る
+            const li = document.createElement("li");
+
+            // レシピの名前と、使っている材料を文字にする
+            li.textContent = `${recipe.name} - Ingredients: ${recipe.ingredients.join(", ")}`;
+
+            // 作った項目を画面に追加する
+            recipeList.appendChild(li);
+          });
+        } 
+        else {
+          // レシピが見つかったとき、1つずつ画面に表示する
+          recipes.forEach((recipe) => {
+            // 新しいリストの項目を作る
+            const li = document.createElement("li");
+
+            // レシピの名前と、使っている材料を文字にする
+            li.textContent = `${recipe.name} - Ingredients: ${recipe.ingredients.join(", ")}`;
+
+            // 作った項目を画面に追加する
+            recipeList.appendChild(li);
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
+
